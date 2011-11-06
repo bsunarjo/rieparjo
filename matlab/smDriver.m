@@ -3,29 +3,42 @@ function smDriver( )
 
 f1 = figure('OuterPosition',[0 0 700 600]);
 winsize = get(f1,'Position');
-numframes = 200;
+numframes = 2;
 
-% Set the grid size
-m = 30;
-n = 30;
+% resize ground model
 
+load elevation
+elevation = stmoritz; % specify which ground model
+
+elevation = elevation(1:1140,:); % matrix dim. must be a multiple of 20
+mn = size(elevation);
+m = mn(1);
+n = mn(2);
+
+elevation_re = zeros(m/20,n/20);
+
+for i=20:20:m
+   for j=20:20:n 
+    elevation_re(i/20,j/20) = mean2(elevation(i-19:i,j-19:j));
+   end
+end
+
+elevation = max(max(elevation_re))-elevation_re; % inverting elevation model
+elevation = elevation./4; % lowering elevation model
+mn = size(elevation);
+m = mn(1);
+n = mn(2);
 
 % Set the parameters
-gauss = fspecial('gaussian',15,5);
 
-initialGround = zeros(m,n); % Modify this to get objects or slopes into
-%initialGround(6:20,16:30)= - (gauss * 5000);
-% the simulation.
-% Example: Box in the middle
-% initialGround(9:12,20:40) = -1000;
 dur = 25;           % Durability
 inten = 10;         % Intensity
 vis = 4;            % Visability
 importance = 1.6;   % Weight of the destination vector
 
+initialGround = elevation;
 groundMax = ones(m,n) * 100;
 intensity = ones(m,n) * inten;
-%intensity(6:20,16:30) = inten - gauss*1000 ;
 durability = ones(m,n) * dur;
 visibility = ones(m,n) * vis;
 
@@ -41,13 +54,13 @@ entryPoints = ginput;
 mysm = StateMachine(myplain);
 mysm.importance = importance;
 
-% Do 200 timesteps
+% Do 'numframes' timesteps
 A(1) = getframe(gcf);
-for i=1:200
+for i=1:numframes
     
     % print every 20th timestep into a .png file
     if(mod(i,20)==0 && i >0)
-        str = sprintf('images/triangle/im_%d_d%d_i%d_v%d_%d.png',...
+        str = sprintf('images/im_%d_d%d_i%d_v%d_%d.png',...
             importance,dur,inten,vis,i);
         saveas(f1,str);
     end
