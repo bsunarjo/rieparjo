@@ -3,7 +3,7 @@ function smDriver( )
 
 f1 = figure('OuterPosition',[0 0 700 600]);
 winsize = get(f1,'Position');
-numframes = 2;
+numframes = 10;
 
 % resize ground model
 
@@ -11,11 +11,9 @@ load elevation
 elevation = stmoritz; % specify which ground model
 
 elevation = elevation(1:1140,:); % matrix dim. must be a multiple of 20
-mn = size(elevation);
-m = mn(1);
-n = mn(2);
+[m n] = size(elevation);
 
-elevation_re = zeros(m/20,n/20);
+elevation_re = zeros(size(elevation)/20);
 
 for i=20:20:m
    for j=20:20:n 
@@ -24,10 +22,8 @@ for i=20:20:m
 end
 
 elevation = max(max(elevation_re))-elevation_re; % inverting elevation model
-elevation = elevation./4; % lowering elevation model
-mn = size(elevation);
-m = mn(1);
-n = mn(2);
+elevation = elevation; % lowering elevation model
+[m n] = size(elevation);
 
 % Set the parameters
 
@@ -37,7 +33,7 @@ vis = 4;            % Visability
 importance = 1.6;   % Weight of the destination vector
 
 initialGround = elevation;
-groundMax = ones(m,n) * 100;
+groundMax = elevation + ones(m,n)*100;
 intensity = ones(m,n) * inten;
 durability = ones(m,n) * dur;
 visibility = ones(m,n) * vis;

@@ -16,6 +16,8 @@ classdef Plain < handle
     methods
         function obj=Plain(initialGround,aGroundMax,aIntensity,aDurability,aVisibility)
             initSize = size(initialGround);
+            % Check if initialGround has same size as intensity and
+            % durability matrix
            
             if((nnz(initSize == size(aIntensity)) == 2) &&...
                     (nnz(initSize == size(aDurability))==2) &&...
