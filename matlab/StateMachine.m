@@ -6,6 +6,8 @@ classdef StateMachine < handle
         plain;          % G ... the current plain
         pedestrians;    % Array of pedestrians which are currently walking
         importance;     % How to weight the vector to the destination
+        entryPoints;    % entry points as specified by ginput
+        paths;
     end
     
     methods
@@ -14,17 +16,19 @@ classdef StateMachine < handle
             obj.plain = aPlain;
         end
         
-        function [Vtr] = transition(obj, newPedsFun)
+        function [Vtr] = transition(obj)
             % Does a transition in the state machine according to the plain
             % and the pedestrians.
-            % newPeds ... function handle returns pedestrian vector
+            
             [n m] = size(obj.plain.ground);
             Vtr = zeros(n,m);
             
-            % Generate new pedestrians
-            newPeds = newPedsFun(size(obj.plain.ground));
-            obj.pedestrians = [obj.pedestrians,newPeds];
+            % Generate new pedestrians and put it to the other
+            % pedestrians
             
+            newPed = Pedestrian(obj.entryPoints);
+            obj.pedestrians = [obj.pedestrians,newPed];
+           
             % Change the environment according to the pedestrian positions
             obj.plain.changeEnvironment(obj.pedestrians);
             
@@ -35,21 +39,29 @@ classdef StateMachine < handle
                 end
             end
             
-            % Delete pedestrians which are at their destination (or close
-            % to it)
-            deletePeds = [];
+            % Delete pedestrians which are at their destination or near
+            ToDelete = false(1,length(obj.pedestrians));
+            
             for i=1:length(obj.pedestrians)
-                if(obj.pedestrians(i).isAtDestination())
-                    deletePeds = [deletePeds,i];
-                else
-                    obj.movePedestrian(i,Vtr);
-                end
+                ToDelete(i) = isAtDestination(obj.pedestrians(i));
             end
             
-            obj.pedestrians(deletePeds) = [];
+            DeletedPed = obj.pedestrians(ToDelete);
+            obj.pedestrians = obj.pedestrians(~ToDelete);
             
+            % Save path of delted pedestrians
+            for i=1:length(DeletedPed)
+                obj.paths = [obj.paths, Path(DeletedPed(i))];
+            end
+                    
+            % move and save way of pedestrians
+            for i=1:length(obj.pedestrians)
+                movePedestrian(obj,i,Vtr);
+                saveWay(obj.pedestrians(i));
+            end
             
         end
+        
         
         function movePedestrian(obj,pedestNum,vtr)
             % Moves a pedestrian according to the attractiveness of the
@@ -150,12 +162,11 @@ classdef StateMachine < handle
             pedest.position = pedest.position + move;
         end
         
-        function [Vtr] = computeAttractiveness(obj,coords)
+        
+        function Vtr = computeAttractiveness(obj,coords)
             % This function computes the sum of all attracivenesses
             % of the whole area from the viewpoint of coords
-            
-            Vtr = 0;
-            
+           
             % Get the visibility at point coords
             visibility = obj.plain.visibility(coords(1),coords(2));
             
@@ -164,8 +175,7 @@ classdef StateMachine < handle
             [n m] = size(G);
             
             % Efficient implementation for the sum
-            S = zeros(size(G));
-            [A,B]=meshgrid(([1:m]-coords(2)).^2,([1:n]-coords(1)).^2);
+            [A,B]=meshgrid(((1:m)-coords(2)).^2,((1:n)-coords(1)).^2);
             S=-sqrt(A+B);
             S = exp(S/visibility);
             S = S.*G;
@@ -173,10 +183,9 @@ classdef StateMachine < handle
             
             % Average the sum over the number of squares in the plain
             Vtr = Vtr/(m*n);
-            
         end
+        
+        
     end
+   
 end
-
-
-

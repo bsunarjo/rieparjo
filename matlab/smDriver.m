@@ -3,10 +3,9 @@ function smDriver( )
 
 f1 = figure('OuterPosition',[0 0 700 600]);
 winsize = get(f1,'Position');
-numframes = 10;
+numframes = 30;
 
-% resize ground model
-
+% resizing elevation model
 load elevation
 elevation = stmoritz; % specify which ground model
 
@@ -22,11 +21,9 @@ for i=20:20:m
 end
 
 elevation = max(max(elevation_re))-elevation_re; % inverting elevation model
-elevation = elevation; % lowering elevation model
 [m n] = size(elevation);
 
 % Set the parameters
-
 dur = 25;           % Durability
 inten = 10;         % Intensity
 vis = 4;            % Visability
@@ -45,10 +42,12 @@ myplain = Plain(initialGround,groundMax,intensity,durability,visibility);
 % show the plain for input of the entry points
 pcolor(myplain.ground);
 entryPoints = ginput;
+entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
 
 % create a state machine with the specified plain
 mysm = StateMachine(myplain);
 mysm.importance = importance;
+mysm.entryPoints = entryPoints;
 
 % Do 'numframes' timesteps
 A(1) = getframe(gcf);
@@ -61,15 +60,10 @@ for i=1:numframes
         saveas(f1,str);
     end
     
-    % specify the function handle which generates new pedestrians
-    newpedsfun = @(size)entries(i,size,entryPoints);
-    %newpedsfun = @(size)corners(i,size);
-    %newpedsfun = @(size)corners(i,size);
-
     % compute a new transition in the state machine
-    vtr = mysm.transition(newpedsfun);
+    vtr = mysm.transition;
+    
     pedestrians = mysm.pedestrians;
-    %positions = zeros(m,n);
     fprintf('Number of pedestrians: %d\n',length(pedestrians));
     
     clf(f1);
@@ -120,43 +114,7 @@ while(exist(str)>0)
     str = sprintf('movie%d.avi',i);
 end
 
-
 %save movie to file
 movie2avi(A,str,'fps',3);
-
-end
-
-function peds = leftToRight(i,pSize)
-n = pSize(1);
-m = pSize(2);
-    ystart = 1 + floor((n).*rand(1,1));
-    ydest = 1 + floor((n).*rand(1,1));
-    xstart = 1;
-    xdest = m;
-    ped = Pedestrian([ydest xdest]);
-    ped.position = [ystart xstart];
-    peds = [ped];
-end
-
-function peds = corners(i,pSize)
-corners = [1 1;...
-    1 pSize(2);...
-    pSize(1) pSize(2);...
-    pSize(1) 1];
-
-r = randperm(4);
-ped = Pedestrian(corners(r(1),:));
-ped.position = corners(r(2),:);
-peds = [ped];
-
-end
-
-function peds = entries(i,pSize,ent)
-corners = floor([ent(:,2) ent(:,1)]);
-
-r = randperm(size(corners,1));
-ped = Pedestrian(corners(r(1),:));
-ped.position = corners(r(2),:);
-peds = [ped];
 
 end
