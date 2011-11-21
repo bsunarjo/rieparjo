@@ -5,14 +5,16 @@ f1 = figure('OuterPosition',[0 0 700 600]);
 winsize = get(f1,'Position');
 numframes = 30;
 
-% resizing elevation model
+
+% select elevation model
 load elevation
-elevation = stmoritz; % specify which ground model
+elevation = stmoritz(1:1140,:); % for St. Moritz
+%elevation = friburg(1:1100,1:1260); % for Friburg
 
-elevation = elevation(1:1140,:); % matrix dim. must be a multiple of 20
-[m n] = size(elevation);
 
+% resizing elevation model (original elevation dim must be multiple of 20)
 elevation_re = zeros(size(elevation)/20);
+[m n] = size(elevation);
 
 for i=20:20:m
    for j=20:20:n 
@@ -20,8 +22,11 @@ for i=20:20:m
    end
 end
 
-elevation = max(max(elevation_re))-elevation_re; % inverting elevation model
+
+% inverting elevation model
+elevation = max(max(elevation_re))-elevation_re;
 [m n] = size(elevation);
+
 
 % Set the parameters
 dur = 25;           % Durability
@@ -74,13 +79,11 @@ for i=1:numframes
     subplot(1,2,1);
     title('Ground structure (evolving trails)');
     pcolor(myplain.ground);
-    caxis([0 50]);
     shading interp;
     axis equal tight off;
     
     subplot(1,2,2);
     pcolor(vtr);
-    caxis([0 1]);
     shading interp;
     axis equal tight off;
     
