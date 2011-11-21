@@ -3,7 +3,7 @@ function smDriver( )
 
 f1 = figure('OuterPosition',[0 0 700 600]);
 winsize = get(f1,'Position');
-numframes = 30;
+numframes = 3;
 
 % resizing elevation model
 load elevation
@@ -26,7 +26,7 @@ elevation = max(max(elevation_re))-elevation_re; % inverting elevation model
 % Set the parameters
 dur = 25;           % Durability
 inten = 10;         % Intensity
-vis = 4;            % Visability
+vis = 1;            % Visability; dependent on scale factor!!
 importance = 1.6;   % Weight of the destination vector
 
 initialGround = elevation;
@@ -40,9 +40,13 @@ visibility = ones(m,n) * vis;
 myplain = Plain(initialGround,groundMax,intensity,durability,visibility);
 
 % show the plain for input of the entry points
-pcolor(myplain.ground);
-entryPoints = ginput;
-entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
+%pcolor(myplain.ground);
+%entryPoints = ginput;
+%entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
+
+% hard coded entry points;
+% eventually we'll want to have these be coordinates of cities
+entryPoints = [38 28; 25 18; 22 27];
 
 % create a state machine with the specified plain
 mysm = StateMachine(myplain);
@@ -50,14 +54,14 @@ mysm.importance = importance;
 mysm.entryPoints = entryPoints;
 
 % Do 'numframes' timesteps
-A(1) = getframe(gcf);
+%A(1) = getframe(gcf);
 for i=1:numframes
     
     % print every 20th timestep into a .png file
     if(mod(i,20)==0 && i >0)
         str = sprintf('images/im_%d_d%d_i%d_v%d_%d.png',...
             importance,dur,inten,vis,i);
-        saveas(f1,str);
+        %saveas(f1,str);
     end
     
     % compute a new transition in the state machine
@@ -74,13 +78,13 @@ for i=1:numframes
     subplot(1,2,1);
     title('Ground structure (evolving trails)');
     pcolor(myplain.ground);
-    caxis([0 50]);
+    %caxis([0 50]);
     shading interp;
     axis equal tight off;
     
     subplot(1,2,2);
     pcolor(vtr);
-    caxis([0 1]);
+    %caxis([0 1]);
     shading interp;
     axis equal tight off;
     
@@ -102,10 +106,10 @@ for i=1:numframes
     
     
     drawnow;
-    A(i)=getframe(gcf);
+    %A(i)=getframe(gcf);
 end
 
-
+%{
 i = 1;
 str = sprintf('movie%d.avi',i);
 
@@ -116,5 +120,5 @@ end
 
 %save movie to file
 movie2avi(A,str,'fps',3);
-
+%}
 end
