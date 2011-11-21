@@ -57,7 +57,6 @@ classdef StateMachine < handle
             % move and save way of pedestrians
             for i=1:length(obj.pedestrians)
                 movePedestrian(obj,i,Vtr);
-                saveWay(obj.pedestrians(i));
             end
             
         end

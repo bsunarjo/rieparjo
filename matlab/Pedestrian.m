@@ -18,7 +18,6 @@ classdef Pedestrian < handle
             r = randperm(length(entryP));
             orig = entryP(r(1),:);
             dest = entryP(r(2),:);
-            obj.way = orig;
             obj.destination = dest;
             obj.position = orig;
         end
@@ -26,11 +25,7 @@ classdef Pedestrian < handle
         function set.position(obj,pos)
             % put pedestrian to position
             obj.position = pos;
-        end
-        
-        function saveWay(obj)
-            % save way of pedestrian
-            obj.way = [obj.way, obj.position];
+            obj.way = [obj.way; obj.position];
         end
         
         function val = isAtDestination(obj)
