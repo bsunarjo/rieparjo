@@ -3,7 +3,7 @@ function smDriver( )
 
 f1 = figure('OuterPosition',[0 0 700 600]);
 winsize = get(f1,'Position');
-numframes = 30;
+numframes = 20;
 
 
 % select elevation model
@@ -35,7 +35,7 @@ vis = 4;            % Visability
 importance = 1.6;   % Weight of the destination vector
 
 initialGround = elevation;
-groundMax = elevation + ones(m,n)*100;
+groundMax = initialGround + ones(m,n)*100;
 intensity = ones(m,n) * inten;
 durability = ones(m,n) * dur;
 visibility = ones(m,n) * vis;
@@ -46,6 +46,7 @@ myplain = Plain(initialGround,groundMax,intensity,durability,visibility);
 
 % show the plain for input of the entry points
 pcolor(myplain.ground);
+axis ij;
 entryPoints = ginput;
 entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
 
@@ -80,12 +81,12 @@ for i=1:numframes
     title('Ground structure (evolving trails)');
     pcolor(myplain.ground);
     shading interp;
-    axis equal tight off;
+    axis equal tight off ij;
     
     subplot(1,2,2);
     pcolor(vtr);
     shading interp;
-    axis equal tight off;
+    axis equal tight off ij;
     
     for j=1:length(pedestrians)
         ped = pedestrians(j);

@@ -51,7 +51,7 @@ classdef StateMachine < handle
             
             % Save path of delted pedestrians
             for i=1:length(DeletedPed)
-                obj.paths = [obj.paths, Path(DeletedPed(i))];
+                obj.paths = [obj.paths, Path(DeletedPed(i),obj.entryPoints)];
             end
                     
             % move and save way of pedestrians

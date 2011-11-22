@@ -30,7 +30,7 @@ classdef Pedestrian < handle
         
         function saveWay(obj)
             % save way of pedestrian
-            obj.way = [obj.way, obj.position];
+            obj.way = [obj.way; obj.position];
         end
         
         function val = isAtDestination(obj)
