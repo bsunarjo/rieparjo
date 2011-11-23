@@ -7,7 +7,10 @@ classdef StateMachine < handle
         pedestrians;    % Array of pedestrians which are currently walking
         importance;     % How to weight the vector to the destination
         entryPoints;    % entry points as specified by ginput
-        paths;
+        paths;          % paths walked by pedestrians
+        pathsSorted;    % paths sorted by what way they went
+        speed;          % horizontal and vertical speed as specified in parameters
+        
     end
     
     methods
@@ -49,9 +52,13 @@ classdef StateMachine < handle
             DeletedPed = obj.pedestrians(ToDelete);
             obj.pedestrians = obj.pedestrians(~ToDelete);
             
-            % Save path of delted pedestrians
+            % Save path of delted pedestrians and sort them
             for i=1:length(DeletedPed)
-                obj.paths = [obj.paths, Path(DeletedPed(i),obj.entryPoints)];
+                % sort path
+                newPath = Path(DeletedPed(i),obj.entryPoints,obj.speed,obj.plain);
+                obj.pathsSorted{newPath.type} = [obj.pathsSorted{newPath.type}; [newPath.type newPath.time]];
+                % save path to other paths
+                obj.paths = [obj.paths, newPath];
             end
                     
             % move and save way of pedestrians

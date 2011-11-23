@@ -3,10 +3,10 @@ function smDriver( )
 
 f1 = figure('OuterPosition',[0 0 700 600]);
 winsize = get(f1,'Position');
-numframes = 20;
+numframes = 50;
 
 
-% select elevation model
+% selecting elevation model
 load elevation
 elevation = stmoritz(1:1140,:); % for St. Moritz
 %elevation = friburg(1:1100,1:1260); % for Friburg
@@ -22,27 +22,28 @@ for i=20:20:m
    end
 end
 
-
-% inverting elevation model
-elevation = max(max(elevation_re))-elevation_re;
-[m n] = size(elevation);
+[m n] = size(elevation_re);
 
 
 % Set the parameters
-dur = 25;           % Durability
-inten = 10;         % Intensity
-vis = 4;            % Visability
-importance = 1.6;   % Weight of the destination vector
+dur = 25;                   % Durability
+inten = 10;                 % Intensity
+vis = 4;                    % Visability
+importance = 1.6;           % Weight of the destination vector
+speed.horizontal = 5000;    % horizontal speed in m/h
+speed.vertical = 500;       % vertical speed in m/h
+gridSize = 500;             % grid size of plain in m
 
-initialGround = elevation;
+
+initialGround = max(max(elevation_re))-elevation_re; % inverting elevation model
 groundMax = initialGround + ones(m,n)*100;
 intensity = ones(m,n) * inten;
 durability = ones(m,n) * dur;
 visibility = ones(m,n) * vis;
-
+elevation = elevation_re;
 
 % create new plain with the specified values
-myplain = Plain(initialGround,groundMax,intensity,durability,visibility);
+myplain = Plain(initialGround,groundMax,intensity,durability,visibility,elevation,gridSize);
 
 % show the plain for input of the entry points
 pcolor(myplain.ground);
@@ -54,6 +55,10 @@ entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
 mysm = StateMachine(myplain);
 mysm.importance = importance;
 mysm.entryPoints = entryPoints;
+mysm.speed = speed;
+% make cell, where possible paths on Plain are later saved
+noPossPaths = length(nchoosek(1:length(mysm.entryPoints),2));
+mysm.pathsSorted = cell(1,noPossPaths); 
 
 % Do 'numframes' timesteps
 A(1) = getframe(gcf);
