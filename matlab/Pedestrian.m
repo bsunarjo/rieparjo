@@ -20,6 +20,7 @@ classdef Pedestrian < handle
             dest = entryP(r(2),:);
             obj.destination = dest;
             obj.position = orig;
+			obj.way = orig;
         end
         
         function set.position(obj,pos)

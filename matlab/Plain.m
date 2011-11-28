@@ -3,33 +3,35 @@ classdef Plain < handle
     
     properties(SetAccess = public)
         ground;         % The current ground structure
+        initialGround;  % inital ground model
         groundMax;      % The maximum values of the walking comfort
         intensity;      % The footprint intensity
         durability;     % The durability of trails
         visibility;     % The visibility at each point
+        realGround;     % real, not inverted, ground
+        gridSize;       % grid size of plain in m
     end
-    
-    properties(SetAccess = private, GetAccess = private)
-        initialGround;
-    end
-    
+   
     methods
-        function obj=Plain(initialGround,aGroundMax,aIntensity,aDurability,aVisibility)
-            initSize = size(initialGround);
+        function obj=Plain(aInitialGround,aGroundMax,aIntensity,aDurability,aVisibility,aRealGround,aGridSize)
+            initSize = size(aInitialGround);
             % Check if initialGround has same size as intensity and
             % durability matrix
            
             if((nnz(initSize == size(aIntensity)) == 2) &&...
                     (nnz(initSize == size(aDurability))==2) &&...
                     (nnz(initSize == size(aGroundMax))==2) &&...
-                    (nnz(initSize == size(aVisibility)))==2)
+                    (nnz(initSize == size(aVisibility))==2) &&...
+                    (nnz(initSize == size(aRealGround))==2))
                 
-                obj.ground = initialGround;
+                obj.ground = aInitialGround;
                 obj.groundMax = aGroundMax;
-                obj.initialGround = initialGround;
+                obj.initialGround = aInitialGround;
                 obj.intensity = aIntensity;
                 obj.durability = aDurability;
                 obj.visibility = aVisibility;
+                obj.realGround = aRealGround;
+                obj.gridSize = aGridSize;
             else
                 error('PLAIN(): initialGround must be same size as intensity and durability');
             end

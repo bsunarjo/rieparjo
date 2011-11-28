@@ -6,7 +6,7 @@ winsize = get(f1,'Position');
 numframes = 3;
 
 
-% select elevation model
+% selecting elevation model
 load elevation
 elevation = stmoritz(1:1140,:); % for St. Moritz
 %elevation = friburg(1:1100,1:1260); % for Friburg
@@ -22,41 +22,51 @@ for i=20:20:m
    end
 end
 
-
-% inverting elevation model
-elevation = max(max(elevation_re))-elevation_re;
-[m n] = size(elevation);
+[m n] = size(elevation_re);
 
 
 % Set the parameters
-dur = 25;           % Durability
-inten = 10;         % Intensity
-vis = 1;            % Visability; dependent on scale factor!!
-importance = 1.6;   % Weight of the destination vector
+%dur = 25;           % Durability
+%inten = 10;         % Intensity
+%vis = 1;            % Visability; dependent on scale factor!!
+%importance = 1.6;   % Weight of the destination vector
+dur = 25;                   % Durability
+inten = 10;                 % Intensity
+vis = 4;                    % Visability
+importance = 1.6;           % Weight of the destination vector
+speed.horizontal = 5000;    % horizontal speed in m/h
+speed.vertical = 500;       % vertical speed in m/h
+gridSize = 500;             % grid size of plain in m
 
-initialGround = elevation;
-groundMax = elevation + ones(m,n)*100;
+
+initialGround = max(max(elevation_re))-elevation_re; % inverting elevation model
+groundMax = initialGround + ones(m,n)*100;
 intensity = ones(m,n) * inten;
 durability = ones(m,n) * dur;
 visibility = ones(m,n) * vis;
-
+elevation = elevation_re;
 
 % create new plain with the specified values
-myplain = Plain(initialGround,groundMax,intensity,durability,visibility);
+myplain = Plain(initialGround,groundMax,intensity,durability,visibility,elevation,gridSize);
 
 % show the plain for input of the entry points
-%pcolor(myplain.ground);
-%entryPoints = ginput;
-%entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
 
 % hard coded entry points;
 % eventually we'll want to have these be coordinates of cities
-entryPoints = [38 28; 25 18; 22 27];
+%entryPoints = [38 28; 25 18; 22 27];
+pcolor(myplain.ground);
+axis ij;
+entryPoints = ginput;
+entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
 
 % create a state machine with the specified plain
 mysm = StateMachine(myplain);
 mysm.importance = importance;
 mysm.entryPoints = entryPoints;
+mysm.speed = speed;
+% make cell, where possible paths on Plain are later saved
+noPossPaths = length(nchoosek(1:length(mysm.entryPoints),2));
+mysm.pathsSorted = cell(1,noPossPaths); 
 
 % Do 'numframes' timesteps
 %A(1) = getframe(gcf);
@@ -85,13 +95,13 @@ for i=1:numframes
     pcolor(myplain.ground);
     %caxis([0 50]);
     shading interp;
-    axis equal tight off;
+    axis equal tight off ij;
     
     subplot(1,2,2);
     pcolor(vtr);
     %caxis([0 1]);
     shading interp;
-    axis equal tight off;
+    axis equal tight off ij;
     
     for j=1:length(pedestrians)
         ped = pedestrians(j);
