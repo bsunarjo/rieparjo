@@ -10,6 +10,7 @@ classdef StateMachine < handle
         paths;          % paths walked by pedestrians
         pathsSorted;    % paths sorted by what way they went
         speed;          % horizontal and vertical speed as specified in parameters
+        time;           % time in which the state machine is in
         
     end
     
@@ -29,7 +30,7 @@ classdef StateMachine < handle
             % Generate new pedestrians and put it to the other
             % pedestrians
             
-            newPed = Pedestrian(obj.entryPoints);
+            newPed = Pedestrian(obj.entryPoints,obj.plain);
             obj.pedestrians = [obj.pedestrians,newPed];
            
             % Change the environment according to the pedestrian positions
@@ -55,8 +56,8 @@ classdef StateMachine < handle
             % Save path of delted pedestrians and sort them
             for i=1:length(DeletedPed)
                 % sort path
-                newPath = Path(DeletedPed(i),obj.entryPoints,obj.speed,obj.plain);
-                obj.pathsSorted{newPath.type} = [obj.pathsSorted{newPath.type}; [newPath.type newPath.time]];
+                newPath = Path(DeletedPed(i),obj.entryPoints,obj.speed,obj.plain,obj.time);
+                obj.pathsSorted{newPath.type} = [obj.pathsSorted{newPath.type}; [newPath.type newPath.time newPath.timeOfArrival]];
                 % save path to other paths
                 obj.paths = [obj.paths, newPath];
             end
@@ -64,6 +65,7 @@ classdef StateMachine < handle
             % move and save way of pedestrians
             for i=1:length(obj.pedestrians)
                 movePedestrian(obj,i,Vtr);
+                saveWay(obj.pedestrians(i),obj.plain);
             end
             
         end

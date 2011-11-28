@@ -5,14 +5,19 @@ classdef Path < handle
         coordinates;
         type;
         time;
+        timeOfArrival;
+        ground;
     end
    
     methods
         
-        function obj = Path(ped,entryP,speed,aPlain)
+        function obj = Path(ped,entryP,speed,aPlain,aTime)
             % takes deleted pedestrian and generates its path with
             % properties
             obj.coordinates = [ped.way; ped.destination];
+            obj.timeOfArrival = aTime;
+            ground_property = aPlain.relativePath(ped.destination(1),ped.destination(2));
+            obj.ground = [ped.ground; ground_property];
             PathType(obj,entryP);      
             PathTime(obj,speed,aPlain);
         end 
@@ -58,29 +63,33 @@ classdef Path < handle
            % calculating horizontal and vertical distance from path
            % (vertical distance only taken if path goes uphill)
            
-           dist_horiz = 0;
-           dist_vert = 0;
+           dist_horiz = zeros(size(path.horiz,1)-1,1);
+           dist_vert = zeros(size(path.horiz,1)-1,1);
+           rel_ground_mean = zeros(size(path.horiz,1)-1,1);
            
            for i=1:size(path.horiz,1)-1
                
                delta_horiz = norm(path.horiz(i+1,:)-path.horiz(i,:));
-               dist_horiz = dist_horiz + delta_horiz;
+               dist_horiz(i,1) = delta_horiz;
                
-               delta_vert = path.horiz(i+1)-path.horiz(i);
+               delta_vert = path.vert(i+1)-path.vert(i);
                if delta_vert>=0
-                   dist_vert = dist_vert + delta_vert;
+                   dist_vert(i,1) = delta_vert;
                end
+               
+               rel_ground_mean(i,1) = (obj.ground(i+1,1)-obj.ground(i,1))/2;
                
            end
            
            % scale horizontal distance with grid size and calculate walking
            % time
            
-           obj.time = dist_horiz*aGridSize/speed.horizontal + dist_vert*aGridSize/speed.vertical;
+           speed.horizontal.real = speed.horizontal.min + (speed.horizontal.max-speed.horizontal.min)*rel_ground_mean;
+           
+           obj.time = sum(aGridSize*dist_horiz./speed.horizontal.real + dist_vert/speed.vertical);
          
         end
         
     end  
     
 end
-
