@@ -27,6 +27,10 @@ classdef StateMachine < handle
             [n m] = size(obj.plain.ground);
             Vtr = zeros(n,m);
             
+            % Make relative strength of path
+            
+            MakeRelativePath(obj.plain);
+            
             % Generate new pedestrians and put it to the other
             % pedestrians
             
@@ -35,7 +39,7 @@ classdef StateMachine < handle
            
             % Change the environment according to the pedestrian positions
             obj.plain.changeEnvironment(obj.pedestrians);
-            
+
             % Compute the attractiveness for each point in the plain
             for i=1:n
                 for j=1:m

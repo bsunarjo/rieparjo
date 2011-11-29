@@ -10,7 +10,7 @@ classdef Plain < handle
         visibility;     % The visibility at each point
         realGround;     % real, not inverted, ground
         gridSize;       % grid size of plain in m
-        relativePath;   % relative path
+        relativePath;   % relative strength of path
     end
    
     methods
@@ -79,6 +79,7 @@ classdef Plain < handle
         end
         
         function MakeRelativePath(obj)
+            % Calculates relative path strength (1 = maximal path)
             obj.relativePath = (obj.ground-obj.initialGround)./(obj.groundMax-obj.initialGround);
         end
     end

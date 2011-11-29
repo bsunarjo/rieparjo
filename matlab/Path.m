@@ -6,7 +6,7 @@ classdef Path < handle
         type;
         time;
         timeOfArrival;
-        ground;
+        relativeGround;
     end
    
     methods
@@ -15,9 +15,8 @@ classdef Path < handle
             % takes deleted pedestrian and generates its path with
             % properties
             obj.coordinates = [ped.way; ped.destination];
+            obj.relativeGround = [ped.relativeGround; aPlain.relativePath(ped.destination(1),ped.destination(2))];
             obj.timeOfArrival = aTime;
-            ground_property = aPlain.relativePath(ped.destination(1),ped.destination(2));
-            obj.ground = [ped.ground; ground_property];
             PathType(obj,entryP);      
             PathTime(obj,speed,aPlain);
         end 
@@ -48,14 +47,13 @@ classdef Path < handle
         
         function PathTime(obj,speed,aPlain)
            % calculates the time it takes the pedestrian to walk the path
-           aRealGround = aPlain.realGround;
-           aGridSize = aPlain.gridSize;
+           
            path.horiz = obj.coordinates;
            
            % extracting height info from elevation model
            path.vert = zeros(size(path.horiz,1),1);
            for i=1:size(path.horiz,1)
-               path.vert(i) = aRealGround(path.horiz(i,1),path.horiz(i,2));
+               path.vert(i) = aPlain.realGround(path.horiz(i,1),path.horiz(i,2));
            end
            
                
@@ -65,28 +63,33 @@ classdef Path < handle
            
            dist_horiz = zeros(size(path.horiz,1)-1,1);
            dist_vert = zeros(size(path.horiz,1)-1,1);
-           rel_ground_mean = zeros(size(path.horiz,1)-1,1);
+           relativeGroundMean = zeros(size(path.horiz,1)-1,1);
            
            for i=1:size(path.horiz,1)-1
                
+               % calculate horizontal distance
                delta_horiz = norm(path.horiz(i+1,:)-path.horiz(i,:));
                dist_horiz(i,1) = delta_horiz;
                
+               % calculate horizontal distance
                delta_vert = path.vert(i+1)-path.vert(i);
                if delta_vert>=0
                    dist_vert(i,1) = delta_vert;
+               else
+                   dist_vert(i,1) = 0;
                end
                
-               rel_ground_mean(i,1) = (obj.ground(i+1,1)-obj.ground(i,1))/2;
+               % calculate relative ground between the gridpoints
+               relativeGroundMean(i,1) = (obj.relativeGround(i+1,1)-obj.relativeGround(i,1))/2;
                
            end
            
            % scale horizontal distance with grid size and calculate walking
            % time
            
-           speed.horizontal.real = speed.horizontal.min + (speed.horizontal.max-speed.horizontal.min)*rel_ground_mean;
+           speed.horizontal.real = speed.horizontal.min + (speed.horizontal.max-speed.horizontal.min)*relativeGroundMean;
            
-           obj.time = sum(aGridSize*dist_horiz./speed.horizontal.real + dist_vert/speed.vertical);
+           obj.time = sum(aPlain.gridSize*dist_horiz./speed.horizontal.real + dist_vert/speed.vertical);
          
         end
         

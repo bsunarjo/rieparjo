@@ -8,8 +8,8 @@ numframes = 100;
 
 % selecting elevation model
 load elevation
-elevation = stmoritz(1:1140,:); % for St. Moritz
-%elevation = friburg(1:1100,1:1260); % for Friburg
+%elevation = stmoritz(1:1140,:); % for St. Moritz
+elevation = friburg(1:1100,1:1260); % for Friburg
 
 
 % resizing elevation model (original elevation dim must be multiple of 20)

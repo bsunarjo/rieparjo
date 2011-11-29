@@ -4,7 +4,7 @@ classdef Pedestrian < handle
      properties(SetAccess = private )
         destination;
         way;
-        ground;
+        relativeGround;
      end
     
     properties(SetAccess = public)
@@ -22,9 +22,7 @@ classdef Pedestrian < handle
             obj.way = orig;
             obj.destination = dest;
             obj.position = orig;
-            MakeRelativePath(aPlain);
-            ground_property = aPlain.relativePath(obj.position(1),obj.position(2));
-            obj.ground = ground_property;
+            obj.relativeGround = aPlain.relativePath(obj.position(1),obj.position(2));
         end
         
         function set.position(obj,pos)
@@ -33,10 +31,9 @@ classdef Pedestrian < handle
         end
         
         function saveWay(obj,aPlain)
-            % save way of pedestrian and property of ground
+            % save way of pedestrian and relative strength of ground
             obj.way = [obj.way; obj.position];
-            ground_property = aPlain.relativePath(obj.position(1),obj.position(2));
-            obj.ground = [obj.ground; ground_property];
+            obj.relativeGround = [obj.relativeGround; aPlain.relativePath(obj.position(1),obj.position(2))];
         end
         
         function val = isAtDestination(obj)
