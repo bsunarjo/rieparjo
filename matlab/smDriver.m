@@ -3,13 +3,13 @@
 
 f1 = figure('OuterPosition',[0 0 700 600]);
 winsize = get(f1,'Position');
-numframes = 100;
+numframes = 300;
 
 
 % selecting elevation model
 load elevation
-%elevation = stmoritz(1:1140,:); % for St. Moritz
-elevation = friburg(1:1100,1:1260); % for Friburg
+elevation = stmoritz(1:1140,:); % for St. Moritz
+%elevation = friburg(1:1100,1:1260); % for Friburg
 
 
 % resizing elevation model (original elevation dim must be multiple of 20)
@@ -114,28 +114,17 @@ for i=1:numframes
     range_A = max(A(:))-min(A(:));
     range_B = max(B(:))-min(B(:));
     
-    % to adjust caxis
-    if range_B>pathMax/10
-        range_B=pathMax/10*2;
-    elseif range_B>pathMax/10*2
-        range_B=pathMax/10*3;
-    elseif range_B>pathMax/10*3
-        range_B=pathMax/10*4;
-    elseif range_B>pathMax/10*4
-        range_B=pathMax/10*5;
-    elseif range_B>pathMax/10*5
-        range_B=pathMax/10*6;
-    elseif range_B>pathMax/10*6
-        range_B=pathMax/10*7;        
-    elseif range_B>pathMax/10*7
-        range_B=pathMax/10*8;
-    elseif range_B>pathMax/10*8
-        range_B=pathMax/10*9;
-    elseif range_B>pathMax/10*9
-        range_B=pathMax;        
-    else
-        range_B=pathMax/10;
+    
+    % to adjust caxis and colormap
+    range_b = range_B;
+    
+    for i=1:10
+       if  (range_b>=pathMax/10*(i-1))&&(range_b<=pathMax/10*i)
+           range_B = pathMax/10*i;
+       end
     end
+    
+    % adjusting colormap
     
     cm = [gray(ceil(64*range_A/range_B));flipud(summer(64))];
 
