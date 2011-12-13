@@ -15,7 +15,8 @@ classdef Path < handle
             % takes deleted pedestrian and generates its path with
             % properties
             obj.coordinates = [ped.way; ped.destination];
-            obj.relativeGround = [ped.relativeGround; aPlain.relativePath(ped.destination(1),ped.destination(2))];
+            obj.relativeGround = [ped.relativeGround;...
+                aPlain.relativePath(ped.destination(1),ped.destination(2))];
             obj.timeOfArrival = aTime;
             PathType(obj,entryP);      
             PathTime(obj,speed,aPlain);
@@ -38,7 +39,10 @@ classdef Path < handle
             % check which from the possible paths the path is
             for i=1:size(PossPathIndex,1)
                
-                if ((obj.coordinates(1,:)==PossPath.origin(i,:)|obj.coordinates(1,:)==PossPath.destination(i,:))&(obj.coordinates(end,:)==PossPath.origin(i,:)|obj.coordinates(end,:)==PossPath.destination(i,:)))
+                if ((obj.coordinates(1,:)==PossPath.origin(i,:)|...
+                        obj.coordinates(1,:)==PossPath.destination(i,:))&...
+                        (obj.coordinates(end,:)==PossPath.origin(i,:)|...
+                        obj.coordinates(end,:)==PossPath.destination(i,:)))
                   obj.type=i;
                 end
                 
