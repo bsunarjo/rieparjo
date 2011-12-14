@@ -14,7 +14,8 @@ classdef Plain < handle
     end
    
     methods
-        function obj=Plain(aInitialGround,aGroundMax,aIntensity,aDurability,aVisibility,aRealGround,aGridSize)
+        function obj=Plain(aInitialGround,aGroundMax,aIntensity,...
+                aDurability,aVisibility,aRealGround,aGridSize)
             initSize = size(aInitialGround);
             % Check if initialGround has same size as intensity and
             % durability matrix
@@ -80,7 +81,8 @@ classdef Plain < handle
         
         function MakeRelativePath(obj)
             % Calculates relative path strength (1 = maximal path)
-            obj.relativePath = (obj.ground-obj.initialGround)./(obj.groundMax-obj.initialGround);
+            obj.relativePath = (obj.ground-obj.initialGround)./...
+                (obj.groundMax-obj.initialGround);
         end
     end
     

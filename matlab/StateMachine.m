@@ -1,6 +1,6 @@
 classdef StateMachine < handle
-    %STATEMACHINE Handles the state changes in the simulation
-    %   Computes the change of the environment and moves all the pedestrians
+    % STATEMACHINE Handles the state changes in the simulation
+    % Computes the change of the environment and moves all the pedestrians
     
     properties(SetAccess = public)
         plain;          % G ... the current plain
@@ -9,7 +9,7 @@ classdef StateMachine < handle
         entryPoints;    % entry points as specified by ginput
         paths;          % paths walked by pedestrians
         pathsSorted;    % paths sorted by what way they went
-        speed;          % horizontal and vertical speed as specified in parameters
+        speed;          % horizontal and vertical speed
         time;           % time in which the state machine is in
         
     end
@@ -60,8 +60,11 @@ classdef StateMachine < handle
             % Save path of delted pedestrians and sort them
             for i=1:length(DeletedPed)
                 % sort path
-                newPath = Path(DeletedPed(i),obj.entryPoints,obj.speed,obj.plain,obj.time);
-                obj.pathsSorted{newPath.type} = [obj.pathsSorted{newPath.type}; [newPath.type newPath.time newPath.timeOfArrival]];
+                newPath = Path(DeletedPed(i),obj.entryPoints,obj.speed,...
+                    obj.plain,obj.time);
+                obj.pathsSorted{newPath.type} = ...
+                    [obj.pathsSorted{newPath.type}; ...
+                    [newPath.type newPath.time newPath.timeOfArrival]];
                 % save path to other paths
                 obj.paths = [obj.paths, newPath];
             end

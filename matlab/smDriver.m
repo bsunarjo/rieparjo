@@ -37,7 +37,7 @@ gridSize = 500;                 % grid size of plain in m
 pathMax = 100;                  % maximal value of a path
 
 
-initialGround = max(max(elevation_re))-elevation_re; % inverting elevation model
+initialGround = max(max(elevation_re))-elevation_re; % inverting elevation
 groundMax = initialGround + ones(m,n)*pathMax;
 intensity = ones(m,n) * inten;
 durability = ones(m,n) * dur;
@@ -45,7 +45,8 @@ visibility = ones(m,n) * vis;
 elevation = elevation_re;
 
 % create new plain with the specified values
-myplain = Plain(initialGround,groundMax,intensity,durability,visibility,elevation,gridSize);
+myplain = Plain(initialGround,groundMax,intensity,durability,visibility,...
+    elevation,gridSize);
 
 % show the plain for input of the entry points
 pcolor(myplain.realGround);

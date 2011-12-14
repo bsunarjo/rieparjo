@@ -22,7 +22,8 @@ classdef Pedestrian < handle
             obj.way = orig;
             obj.destination = dest;
             obj.position = orig;
-            obj.relativeGround = aPlain.relativePath(obj.position(1),obj.position(2));
+            obj.relativeGround = aPlain.relativePath(obj.position(1),...
+                obj.position(2));
         end
         
         function set.position(obj,pos)
@@ -33,7 +34,8 @@ classdef Pedestrian < handle
         function saveWay(obj,aPlain)
             % save way of pedestrian and relative strength of ground
             obj.way = [obj.way; obj.position];
-            obj.relativeGround = [obj.relativeGround; aPlain.relativePath(obj.position(1),obj.position(2))];
+            obj.relativeGround = [obj.relativeGround;...
+                aPlain.relativePath(obj.position(1),obj.position(2))];
         end
         
         function val = isAtDestination(obj)
