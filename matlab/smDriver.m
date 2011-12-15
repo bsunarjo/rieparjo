@@ -1,4 +1,4 @@
-%function smDriver( )
+function smDriver(dur, inten, vis, importance)
 %SMDRIVER Sets up a simulation
 
 f1 = figure('OuterPosition',[0 0 700 600]);
@@ -26,10 +26,10 @@ end
 
 
 % Set the parameters
-dur = 25;                       % Durability
-inten = 10;                     % Intensity
-vis = 4;                        % Visability
-importance = 1.6;               % Weight of the destination vector
+%dur = 25;                       % Durability
+%inten = 10;                     % Intensity
+%vis = 4;                        % Visability
+%importance = 1.6;               % Weight of the destination vector
 speed.horizontal.min = 4000;    % min horizontal speed in m/h
 speed.horizontal.max = 6000;    % max horizontal speed in m/h
 speed.vertical = 500;           % vertical speed in m/h
@@ -189,4 +189,4 @@ end
 %save movie to file
 movie2avi(C,str,'fps',3);
 
-%end
+end
