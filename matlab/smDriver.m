@@ -144,7 +144,7 @@ for i=1:numframes
     colormap(cm)
     caxis([min(A(:)) max(A(:))+range_B])
     
-    freezeColors % http://www.mathworks.com/matlabcentral/fileexchange/7943
+    freezeColors
 
     % subplot 3
     subplot(1,3,3);
