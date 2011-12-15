@@ -1,33 +1,27 @@
-%function smDriver(dur, inten, vis, importance, location, numframes)
+%function smDriver( )
 %SMDRIVER Sets up a simulation
 
 f1 = figure('OuterPosition',[0 0 700 600]);
 winsize = get(f1,'Position');
-numframes = 100;
+numframes = 300;
 
 
 % selecting elevation model
-%load elevation
-%if(strcmp(location,'fri'))
-    elevation = friburg(1:1100,1:1260); % for Friburg
-    entryPoints = [667 503; 596 534; 693 607; 599 227; 612 459; 546 417; 255 223; 662 399; 412 655; 510 689; 523 514; 418 366; 418 570; 267 669];
-%elseif(strcmp(location,'stm'))
-%    elevation = stmoritz(1:1140,:); % for St. Moritz
-%    entryPoints = [454 620; 567 452; 674 638; 528 542; 328 785; 623 372];
-%end
+load elevation
+elevation = stmoritz(1:1140,:); % for St. Moritz
+%elevation = friburg(1:1100,1:1260); % for Friburg
 
 
 % resizing elevation model (original elevation dim must be multiple of 20)
-%elevation_re = zeros(size(elevation)/20);
-%[m n] = size(elevation);
+elevation_re = zeros(size(elevation)/20);
+[m n] = size(elevation);
 
-%for i=20:20:m
-%   for j=20:20:n 
-%    elevation_re(i/20,j/20) = mean2(elevation(i-19:i,j-19:j));
-%   end
-%end
+for i=20:20:m
+   for j=20:20:n 
+    elevation_re(i/20,j/20) = mean2(elevation(i-19:i,j-19:j));
+   end
+end
 
-elevation_re = elevation;
 [m n] = size(elevation_re);
 
 
@@ -55,11 +49,11 @@ myplain = Plain(initialGround,groundMax,intensity,durability,visibility,...
     elevation,gridSize);
 
 % show the plain for input of the entry points
-%pcolor(myplain.realGround);
-%colormap(gray);
-%axis ij;
-%entryPoints = ginput;
-%entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
+pcolor(myplain.realGround);
+colormap(gray);
+axis ij;
+entryPoints = ginput;
+entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
 
 % create a state machine with the specified plain
 mysm = StateMachine(myplain);
@@ -144,7 +138,7 @@ for i=1:numframes
     colormap(cm)
     caxis([min(A(:)) max(A(:))+range_B])
     
-    freezeColors
+    freezeColors % http://www.mathworks.com/matlabcentral/fileexchange/7943
 
     % subplot 3
     subplot(1,3,3);
