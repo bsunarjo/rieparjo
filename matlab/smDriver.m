@@ -1,15 +1,20 @@
-%function smDriver( )
+function smDriver(dur, inten, vis, importance, site, numframes)
 %SMDRIVER Sets up a simulation
 
 f1 = figure('OuterPosition',[0 0 700 600]);
 winsize = get(f1,'Position');
-numframes = 300;
+%numframes = 200;
 
 
 % selecting elevation model
 load elevation
-elevation = stmoritz(1:1140,:); % for St. Moritz
-%elevation = friburg(1:1100,1:1260); % for Friburg
+if(strcmp(site,'stm'))
+    elevation = stmoritz(1:1140,:); % for St. Moritz
+    entryPoints = [23 31;29 23;34 32;27 28;17 40;32 19];
+elseif(strcmp(site,'fri'))
+    elevation = friburg(1:1100,1:1260); % for Friburg
+	entryPoints = [34 26;30 27;35 31;30 12;31 23;28 21;13 12;34 20;21 33;26 35;27 26;21 19;21 29;14 34];
+end
 
 
 % resizing elevation model (original elevation dim must be multiple of 20)
@@ -26,10 +31,10 @@ end
 
 
 % Set the parameters
-dur = 25;                       % Durability
-inten = 10;                     % Intensity
-vis = 4;                        % Visability
-importance = 1.6;               % Weight of the destination vector
+%dur = 25;                       % Durability
+%inten = 10;                     % Intensity
+%vis = 4;                        % Visability
+%importance = 1.6;               % Weight of the destination vector
 speed.horizontal.min = 4000;    % min horizontal speed in m/h
 speed.horizontal.max = 6000;    % max horizontal speed in m/h
 speed.vertical = 500;           % vertical speed in m/h
@@ -49,11 +54,12 @@ myplain = Plain(initialGround,groundMax,intensity,durability,visibility,...
     elevation,gridSize);
 
 % show the plain for input of the entry points
-pcolor(myplain.realGround);
-colormap(gray);
-axis ij;
-entryPoints = ginput;
-entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
+%pcolor(myplain.realGround);
+%colormap(gray);
+%shading interp;
+%axis ij;
+%entryPoints = ginput;
+%entryPoints = floor([entryPoints(:,2) entryPoints(:,1)]);
 
 % create a state machine with the specified plain
 mysm = StateMachine(myplain);
@@ -178,15 +184,22 @@ for i=1:numframes
 end
 
 
-i = 1;
-str = sprintf('movie%d.avi',i);
 
-while(exist(str)>0)
-    i = i+1;
-    str = sprintf('movie%d.avi',i);
-end
+% save data
+savefile = sprintf('data/d%d_i%d_v%d_i%d_%s.mat',...
+            dur, inten, vis, importance, site);
+save(savefile, 'myplain', 'mysm');
+
+
+%i = 1;
+%str = sprintf('movie%d.avi',i);
+
+%while(exist(str)>0)
+%    i = i+1;
+%    str = sprintf('movie%d.avi',i);
+%end
 
 %save movie to file
-movie2avi(C,str,'fps',3);
+%movie2avi(C,str,'fps',3);
 
-%end
+end
