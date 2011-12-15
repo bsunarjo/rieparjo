@@ -1,6 +1,57 @@
-%=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 \section{Description of the Model}
-%=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-%(Cellular Automata, Agent-Based Model, Continuous Modeling‚Ä¶)
-%(If you are not sure here: 1. Consult your colleagues, 2. ask the teachers, 3. remember that you can change it afterwards)
+Our studies are based on an active walker model developed by \cite{helbing:1997}. \cite{helbing:1997} used this agent-based model to explain footpath formation in green areas in cities.
+
+In comparison to a normal pedestrian model, an active walker model also takes the interactions of the pedestrians and the terrain they walked upon into account. This means that the pedestrians change the landscape they walk upon and the changed landscape influences again the pedestrians movement. A second important characteristic of the model, which influences the direction of walking of the pedestrians, is the attractiveness of a trail segment. It is a property of each point in the terrain, which describes how interesting it is to go to this certain place. In other words, how good the prospects are on this place for further walking. It is the element of our model which handles the effect of human orientation and is described later on in more detail.
+
+As the model consists of three major components (the ground, the attractiveness of a trail segment and the pedestrians), all three are described separately. The ground and the influence of the pedestrians on it is described in Sec.\ \ref{ground_structure}. Sec.\ \ref{trail_potential} explains how the attractiveness of walking is computed and Sec.\ \ref{pedestrians_direction} illustrates how the pedestrians walking direction is determined.
+
+Furthermore a 
+
+\subsection{Ground Structure}
+\label{ground_structure}
+
+Our landscape is represented by a function $G(r,t)$, called comfort of walking, with $r$ for the position in the plane and $t$ for time. As it is a property of our plane it is defined on each point. High values of $G$ stand for trails, i.e. places where many people walked upon, while low values of $G$ stand for places where fewer people passed by. Every time a pedestrian walks on o certain point of the plain it changes the comfort of walking there. This is because pedestrians trample down the vegetation. This is described by
+
+\begin{equation}
+\label{trample_down}
+I(r)[1-\frac{G(r,t)}{G_{max}(r)}]\ ,
+\end{equation}
+
+where $I(r)$ stands for the intensity of the footprint and $G_{max}(r)$ for the maximal value of the comfort of walking at a certain place (i.e. the maximal value a place can be trampled "up"). The expression in the brackets of Eq.\ \ref{trample_down} account for the saturation effect, so that the impact of the footprints decreases when there are more people walking on a place until the maximal value is reached.
+
+As the vegetation can be trampled down it can also regrow. This effect is expressed by
+
+\begin{equation}
+\frac{1}{T(r)}[G_0(r)-G(r,t)]
+\end{equation}
+
+where $G_0(r)$ stands for the natural ground condition and $T(r)$ for the durability of the trails. The bigger the durability $T(r)$ the slower the ground goes back to natural conditions $G_0(r)$.
+
+Finally the change of the comfort of walking by time due to the walking pedestrians and the regrowth of the vegetation can be expressed as
+
+\begin{equation}
+\frac{dG(r,t)}{dt}=I(r)[1-\frac{G(r,t)}{G_{max}(r)}]\sum\limits_{\alpha} \delta(r-r_{\alpha}(t)) +\frac{1}{T(r)}[G_0(r)-G(r,t)]
+\end{equation}
+
+with $\alpha$ for the set of pedestrians and $\delta(r-r_{\alpha}(t))$ standing for the Dirac delta function, which is 1 if $r=r_(\alpha)$ and 0 in all other cases and therefore only contributs if a pedestrian is on the actual position.
+
+\subsection{Attractiveness of Trail Segment}
+\label{trail_potential}
+
+As mentioned above the attractiveness of a trail segment is a measure of how interesting a place is in manner of later onward walking. It is defined for every place and depends on the comfort of walking of its surrounding, where the influence of the surround decreases with distance from the place. The attractiveness of a trail segment is called trail potential and is defined as
+
+\begin{equation}
+V_{tr}(r_t,t) = \int_{P} G(r,t) e^{\frac{-|r-r_t|}{\sigma(r_t)}} dP
+\end{equation}
+
+where $r_t$ stands for the position the trail potential is computed for, P for the whole plain and $\sigma(r_t)$ for the visibility. The visibility controls how fast the influence of the surrounding decreases. The higher the visibility the slower the influence of the surrounding decreases. Furthermore high values of the trail potential stand for a high attractiveness of a trail segment and vice versa. 
+
+\subsection{Pedestrians Walking Direction}
+\label{pedestrians_direction}
+
+In the model every pedestrian has a starting point and a destination. When the pedestrians walking direction is determined two vectors decide about the final walking direction. One vector is the vector which points towards the pedestrians destination $d_{\alpha}$ and the other into the direction of the highest increase of the trail potential.
+
+\section{Description of the Path-Evaluation Function}
+
+To evaluate the paths taken by the pedestrians a function was defined to judge if a path was reasonable or not. We assumed that every pedestrian tries to minimize the time it takes to go from the start to the destination.
