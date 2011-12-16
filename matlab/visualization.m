@@ -106,13 +106,6 @@ function plot_paths(filename)
     colormap(cm)
     caxis([min(A(:)) max(A(:))+range_B])
     
-    if(strfind(filename,'fri'))
-        p = [34 26;30 27;35 31;30 12;31 23;28 21;13 12;34 20;21 33;26 35;27 26;21 19;21 29;14 34];
-    else
-        p = [23 31;29 23;34 32;27 28;17 40;32 19];
-    end
-    plot(p(:,1),p(:,2),'wo');
-
     freezeColors % http://www.mathworks.com/matlabcentral/fileexchange/7943
 
 
@@ -120,6 +113,15 @@ function plot_paths(filename)
     for ped=mysm.pedestrians
         plot(ped.way(:,1), ped.way(:,2));
     end
+
+    % plot cities
+    if(strfind(filename,'fri'))
+        p = [34 26;30 27;35 31;30 12;31 23;28 21;13 12;34 20;21 33;26 35;27 26;21 19;21 29;14 34];
+    else
+        p = [23 31;29 23;34 32;27 28;17 40;32 19];
+    end
+    plot(p(:,1),p(:,2),'wo');
+
 
     hold off;
 
