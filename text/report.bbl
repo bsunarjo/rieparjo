@@ -1,0 +1,19 @@
+\begin{thebibliography}{}
+
+\bibitem[Helbing et~al., 1997]{helbing:1997}
+Helbing, D., Keltsch, J., \& Moln{\'a}r, P. (1997).
+\newblock Modelling the evolution of human trail systems.
+\newblock {\em Nature}, 388(3).
+
+\bibitem[K{\"o}lbl \& Helbing, 2003]{koelbl_helbing:2003}
+K{\"o}lbl, R. \& Helbing, D. (2003).
+\newblock Energy laws in human travel behaviour.
+\newblock {\em New Journal of Physics}, 5(48).
+
+\bibitem[Pfefferle \& Pleschko, 2010]{trailsystems}
+Pfefferle, J. \& Pleschko, N. (2010).
+\newblock Simulation of human trail systems.
+\newblock Project Report for Lecture "Modelling and Simulating Social Systems
+  with MATLAB".
+
+\end{thebibliography}

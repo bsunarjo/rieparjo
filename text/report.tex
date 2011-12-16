@@ -34,17 +34,13 @@
 %\hypersetup{pdftitle={Title}}
 
 
-\pagestyle{empty}
 
 \begin{document}
+\thispagestyle{empty}
 
 
 
-\title{}
-\author{Christoph Rieper and Benjamin Sunarjo}
 
-
-\maketitle
 %\thispagestyle{empty} % no page numbers on title page
 Lecture with Computer Exercises: Modelling and Simulating Social Systems with MATLAB
 Project Report
@@ -56,6 +52,8 @@ Group Members: Christoph Rieper and Benjamin Sunarjo
 
 
 \newpage
+\setcounter{page}{1}
+\pagenumbering{roman}
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 \section*{Agreement for free-download}
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -75,6 +73,7 @@ Benjamin Sunarjo
 
 \newpage
 \setcounter{page}{1}	% start page numbering here
+\pagenumbering{arabic}
 \pagestyle{plain}
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 \section*{Abstract}
@@ -126,11 +125,18 @@ We expect to find that the smaller roads correspond more closely to results gene
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 \section{Simulation Results and Discussion}
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-In our analysis of the path formation process using our active walker model, the biggest uncertainty concerned the values of the various independent parameters (durability and intensity of trails, visibility, relative importance of the destination vector). No literature values could be 
-we couldn't find any literature references to this. Since our initial hypotheses cannot be conclusively addressed without first dealing with the issue of model parameters, we conducted a sensitivity analysis. we'll discuss first the results of a parameter variation, then look in detail at the generated path structures, and finally compare our results with existing road structures.
+In our analysis of the path formation process using our active walker model, the biggest uncertainty concerned the values of the various independent parameters (durability and intensity of trails, visibility, relative importance of the destination vector). No literature values could be found for these values (they are dependent on model specifics such as the model scale). Since our initial hypotheses cannot be conclusively addressed without first dealing with the issue of model parameters, we first discuss the effects parameter variation has on model results, then look in detail at the generated path structures. Finally, we compare our results with existing road structures.
 
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 \subsection{Parameter variation}
+
+\subsubsection{visibility}
+
+\subsubsection{importance}
+
+\subsubsection{durability}
+
+\subsubsection{intensity}
 
 
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -163,15 +169,14 @@ We found:
 %\bibliographystyle{apalike2}
 %\bibliography{references}
 
-\renewcommand{\refname}{\section{Sources}} % Using "Sources" as the title of the section
-\begin{thebibliography}{99}
-...
-\end{thebibliography}
+\renewcommand{\refname}{\section{References}} % Using "Sources" as the title of the section
+\bibliographystyle{apalike2}
+\bibliography{references}
 
 
 \newpage
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-\section{Appendix A: Matlab Code}
+\section{Appendix: Matlab Code}
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 \subsection*{batch.m}
 \lstinputlisting{../matlab/batch.m}

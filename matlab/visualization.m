@@ -23,7 +23,8 @@ for file=1:numel(files)
     plot_paths(filename);
     [n t dist dist_std traveltime] = completed_paths(filename);
     
-    data = sprintf('%i,%i,%f,%f,%i,%f,%f,%f,%f',dur,inten,vis,importance,n,t,dist,dist_std,traveltime);
+    data = sprintf('%i,%i,%f,%f,%i,%f,%f,%f,%f', ...
+    		dur,inten,vis,importance,n,t,dist,dist_std,traveltime);
     disp(data);
 
 end
