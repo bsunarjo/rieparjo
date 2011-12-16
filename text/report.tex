@@ -19,6 +19,9 @@
 \usepackage{mathpazo}
 \usepackage[scaled=0.92]{helvet}
 
+% matlab code
+\usepackage{mcode}
+
 % spacing
 \setlength{\parskip}{0.2cm}			% remove indent at paragraphs
 \setlength{\parindent}{0pt}			% remove indent at paragraphs
@@ -123,16 +126,62 @@ We expect to find that the smaller roads correspond more closely to results gene
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 \section{Simulation Results and Discussion}
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+In our analysis of the path formation process using our active walker model, the biggest uncertainty concerned the values of the various independent parameters (durability and intensity of trails, visibility, relative importance of the destination vector). No literature values could be 
+we couldn't find any literature references to this. Since our initial hypotheses cannot be conclusively addressed without first dealing with the issue of model parameters, we conducted a sensitivity analysis. we'll discuss first the results of a parameter variation, then look in detail at the generated path structures, and finally compare our results with existing road structures.
+
+%=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\subsection{Parameter variation}
+
+
+%=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\subsection{Path structure}
+
+
+%=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\subsection{Existing road structure}
+
+\begin{figure}[tbp]
+	%\includegraphics[width=\linewidth]{../figures/roads}
+	\caption{The road structure at the two study sites. Data taken from Swisstopo illustrates the differences. The weight of the lines is derived from road class order (highways and 1. order roads are heavier in weight than higher order roads) and does not necessarily correlate to throughput.}
+	\label{fig:roads}
+\end{figure}
+
+qualitative differences between the two sites. Road structure at the St. Moritz site shows close similarity to the structure of alpine rivers, 
+
+
+
 
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 \section{Summary and Outlook}
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
+We found:
+-it's most important to determine correct parameter values
+-there are qualitative differences between the two study sites.
 
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-%\addcontentsline{toc}{section}{References}  % adds references section to TOC
+\addcontentsline{toc}{section}{References}  % adds references section to TOC
 \bibliographystyle{apalike2}
 \bibliography{references}
+
+
+\newpage
+%=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\section{Appendix A: Matlab Code}
+%=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\subsection*{batch.m}
+\lstinputlisting{../matlab/batch.m}
+\subsection*{Path.m}
+\lstinputlisting{../matlab/Path.m}
+\subsection*{Pedestrian.m}
+\lstinputlisting{../matlab/Pedestrian.m}
+\subsection*{Plain.m}
+\lstinputlisting{../matlab/Plain.m}
+\subsection*{smDriver.m}
+\lstinputlisting{../matlab/smDriver.m}
+\subsection*{StateMachine.m}
+\lstinputlisting{../matlab/StateMachine.m}
+\subsection*{visualization.m}
+\lstinputlisting{../matlab/visualization.m}
 
 
 \end{document}
