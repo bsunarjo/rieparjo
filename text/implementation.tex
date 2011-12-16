@@ -1,3 +1,11 @@
 \section{Implementation}
 
-The active walker model was previously implemented by \citet{trailsystems}. We further developed this model to fit our requirements. Therefore first the implementation of \citet{trailsystems} is described followed by our additional contribution.
+The active walker model was previously implemented by \citet{trailsystems}. We further developed the model by adding the path-evaluation function and the interface to work with real elevation data to its functionalities. The implementation by \citet{trailsystems} is described in their report, while our contribution is described here.
+
+\subsection{Interface for real Elevation Data}
+
+The elevation data provided by swisstopo.admin.ch (5$\times$5 $km$ for each site) came in a resolution of 25$\times$25 $m$. To use this elevation data in our model first the resolution had to to be lowered to 500$\times$500 $m$ for computational reasons and then the data had to bee adjusted to work in our model. 
+
+
+\subsection{Path Class}
+As our 
