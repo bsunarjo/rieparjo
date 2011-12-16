@@ -20,7 +20,7 @@
 \usepackage[scaled=0.92]{helvet}
 
 % matlab code
-\usepackage{mcode}
+\usepackage[numbered,autolinebreaks,framed]{mcode}
 
 % spacing
 \setlength{\parskip}{0.2cm}			% remove indent at paragraphs
@@ -159,9 +159,14 @@ We found:
 -there are qualitative differences between the two study sites.
 
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-\addcontentsline{toc}{section}{References}  % adds references section to TOC
-\bibliographystyle{apalike2}
-\bibliography{references}
+%\addcontentsline{toc}{section}{References}  % adds references section to TOC
+%\bibliographystyle{apalike2}
+%\bibliography{references}
+
+\renewcommand{\refname}{\section{Sources}} % Using "Sources" as the title of the section
+\begin{thebibliography}{99}
+...
+\end{thebibliography}
 
 
 \newpage
