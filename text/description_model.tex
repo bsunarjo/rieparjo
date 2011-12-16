@@ -6,8 +6,6 @@ In comparison to a normal pedestrian model, an active walker model also takes th
 
 As the model consists of three major components (the ground, the attractiveness of a trail segment and the pedestrians), all three are described separately. The ground and the influence of the pedestrians on it is described in Sec.\ \ref{ground_structure}. Sec.\ \ref{trail_potential} explains how the attractiveness of walking is computed and Sec.\ \ref{pedestrians_direction} illustrates how the pedestrians walking direction is determined.
 
-Furthermore a 
-
 \subsection{Ground Structure}
 \label{ground_structure}
 
@@ -45,13 +43,33 @@ As mentioned above the attractiveness of a trail segment is a measure of how int
 V_{tr}(r_t,t) = \int_{P} G(r,t) e^{\frac{-|r-r_t|}{\sigma(r_t)}} dP
 \end{equation}
 
-where $r_t$ stands for the position the trail potential is computed for, P for the whole plain and $\sigma(r_t)$ for the visibility. The visibility controls how fast the influence of the surrounding decreases. The higher the visibility the slower the influence of the surrounding decreases. Furthermore high values of the trail potential stand for a high attractiveness of a trail segment and vice versa. 
+where $r_t$ stands for the position the trail potential is computed for, P for the plain and $\sigma(r_t)$ for the visibility. The visibility controls how fast the influence of the surrounding decreases. The higher the visibility the slower the influence of the surrounding decreases. Furthermore high values of the trail potential stand for a high attractiveness of a trail segment and vice versa. 
 
 \subsection{Pedestrians Walking Direction}
 \label{pedestrians_direction}
 
-In the model every pedestrian has a starting point and a destination. When the pedestrians walking direction is determined two vectors decide about the final walking direction. One vector is the vector which points towards the pedestrians destination $d_{\alpha}$ and the other into the direction of the highest increase of the trail potential.
+In the model every pedestrian has a starting point and a destination. When the pedestrians walking direction is determined two vectors decide about the final walking direction. One vector is the vector which points towards the pedestrians destination. It is given by the unit vector
+
+\begin{equation}
+\label{dest_1}
+e_{\alpha}^{1}(r_{\alpha},t)=\frac{d_{\alpha}-r_{\alpha}}{|d_{\alpha}-r_{\alpha}|}
+\end{equation}
+
+where $d_{\alpha}$ is the position of the pedestrians destination.The other vector which decides about the pedestrians walking direction is the vector which points into the direction of highest increase of the trail potential. It can be expressed in the normalized form as
+
+\begin{equation}
+\label{dest_2}
+e_{\alpha}^{2}(r_{\alpha},t)=\frac{\nabla{V_{tr}(r_{\alpha},t)}}{|\nabla{V_{tr}(r_{\alpha},t)}|}.
+\end{equation}
+
+Combining Eq.\ \ref{dest_1} and \ref{dest_2} and introducing a new variable $\rho$ that controls the relative importance of the two vectors leads to the final walking direction
+
+\begin{equation}
+e_{\alpha}(r_{\alpha},t)=\rho \cdot e_{\alpha}^{1}(r_{\alpha},t)+e_{\alpha}^{2}(r_{\alpha},t)=\rho \cdot \frac{d_{\alpha}-r_{\alpha}}{|d_{\alpha}-r_{\alpha}|}+\frac{\nabla{V_{tr}(r_{\alpha},t)}}{|\nabla{V_{tr}(r_{\alpha},t)}|}.
+\end{equation}
+
+For value of $\rho>1$ the destination vector gets more important and for value $\rho<1$ the direction of the highest increase of the trail potential prevails.
 
 \section{Description of the Path-Evaluation Function}
 
-To evaluate the paths taken by the pedestrians a function was defined to judge if a path was reasonable or not. We assumed that every pedestrian tries to minimize the time it takes to go from the start to the destination.
+To evaluate the paths taken by the pedestrians a function was defined to judge if a path was reasonable or not. We assumed that every pedestrian tries to minimize the time it takes to go from the start to the destination. \citet{koelbl_helbing:2003}
