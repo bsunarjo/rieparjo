@@ -4,8 +4,20 @@ The active walker model was previously implemented by \citet{trailsystems}. We f
 
 \subsection{Interface for real Elevation Data}
 
-The elevation data provided by swisstopo.admin.ch (5$\times$5 $km$ for each site) came in a resolution of 25$\times$25 $m$. To use this elevation data in our model first the resolution had to to be lowered to 500$\times$500 $m$ for computational reasons and then the data had to bee adjusted to work in our model. 
+The elevation data provided by swisstopo.admin.ch (5$\times$5 $km$ for each site) came in a resolution of 25$\times$25 $m$. To use this elevation data in our model first the resolution had to to be lowered to 500$\times$500 $m$ for computational reasons and then the data had to be adjusted to use it as initial comfort of walking $G_0$.
 
+As high values of comfort of walking represent paths which are favored for walking on and high values in the elevation data are mountains which are not favored for walking on the elevation model had to be inverted. So in the inverted elevation model valleys became  mountains and mountains became valleys. Therefore the initial comfort of walking was set to
 
-\subsection{Path Class}
-As our 
+\begin{equation}
+G_0 = argMax(E)-E \,
+\end{equation}
+
+where E is the original elevation model.
+
+\subsection{Implementation of the Path-Evaluation Function}
+
+To add the path-evaluation function to the model the pedestrian class had to be changed and a new class, the path class was created. First the changes to the pedestrian class are described followed by the introduction of the path class.
+
+To evaluate the travel-time equation (Eq.\ \ref{eq:time}) the relative ground $\frac{G(r_{\alpha},t)-G_{0}(r_{\alpha},t)}{G_{max}(r_{\alpha},t)-G_{0}(r_{\alpha},t)}$ and the coordinates of the walked way by the pedestrian have to be known. Therefore the pedestrian class was changed to save the coordinates and the relative ground on this coordinates on every time step of the state machine.
+
+Furthermore on every time step when a pedestrian arrives at his destination the information about the walked path is used the create an object of the new path class. An object of the path class has the following properties: coordinates, relative ground on coordinates, time, time of arrival and type. The coordinates and the relative ground on the coordinates are provided by the pedestrian object itself while time is the result of the travel-time equation and time of arrival the time step in which the state machine is in when the pedestrian arrives. The type of the path is a number which was assigned to the path depending on which way (which start and which destination) the pedestrian went. All the created paths are then saved in the simulation for later analysation.

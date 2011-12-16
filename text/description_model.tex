@@ -77,14 +77,17 @@ To evaluate the paths taken by the pedestrians a function was defined to judge i
 Assuming a horizontal speed $u_{horiz}(G(r_{\alpha},t))$ which scales with comfort of walking and a constant vertical speed $u_{vert}$ the travel-time is given by
 
 \begin{equation}
+\label{eq:time}
 T= \frac{s_{horiz}}{u_{horiz}(G(r_{\alpha},t))} + \frac{s_{vert}}{u_{vert}} \,,
 \end{equation}
 
 where $s_{vert}$ is the uphill travelled distance and $s_{horiz}$ the horizontally traveled distance. In more detail the horizontal speed $u_{horiz}$ scales between a minimal horizontal speed $u_{horiz,min}$ and a maximal horizontal speed $u_{horiz,max}$ depending on how strongly the path is trampled down. This is expressed as
 
 \begin{equation}
-u_{horiz}(r_{\alpha},t) = u_{horiz,min} + (u_{horiz,max}-u_{horiz,min}) \cdot \frac{G(r_{\alpha},t)-G_{0}(r_{\alpha},t)}{G_{max}(r_{\alpha},t)-G_{0}(r_{\alpha},t)}.
+u_{horiz}(r_{\alpha},t) = u_{horiz,min} + (u_{horiz,max}-u_{horiz,min}) \cdot \frac{G(r_{\alpha},t)-G_{0}(r_{\alpha},t)}{G_{max}(r_{\alpha},t)-G_{0}(r_{\alpha},t)},
 \end{equation}
+
+where $\frac{G(r_{\alpha},t)-G_{0}(r_{\alpha},t)}{G_{max}(r_{\alpha},t)-G_{0}(r_{\alpha},t)}$ is the relative ground.
 
 In Tab.\ \ref{table_speed} values of $u_{horiz,min}$, $u_{horiz,max}$ and $u_{vert}$ which are used in the path-evaluation function can be found.
 
