@@ -72,4 +72,14 @@ For value of $\rho>1$ the destination vector gets more important and for value $
 
 \section{Description of the Path-Evaluation Function}
 
-To evaluate the paths taken by the pedestrians a function was defined to judge if a path was reasonable or not. We assumed that every pedestrian tries to minimize the time it takes to go from the start to the destination. \citet{koelbl_helbing:2003}
+To evaluate the paths taken by the pedestrians a function was defined to judge if a path is reasonable or not. As described by \citet{koelbl_helbing:2003} humans try to minimize their cost of travel. Cost of travel in our case is travel-time. Assuming a horizontal speed $u_{horiz}(G(r_{\alpha},t))$ which scales with comfort of walking and a constant vertical speed $u_{vert}$ the travel-time is given by
+
+\begin{equation}
+T= \frac{s_{horiz}}{u_{horiz}(G(r_{\alpha},t))} + \frac{s_{vert}}{u_{vert}} \,,
+\end{equation}
+
+where $s_{vert}$ and $s_{horiz}$ are the vertically and horizontally traveled distance. In more detail the horizontal speed $u_{horiz}$ scales between a minimal horizontal speed $u_{horiz,min}$ and a maximal horizontal speed $u_{horiz,max}$ depending on how strongly the path is trampled down. This is expressed as
+
+\begin{equation}
+u_{horiz}(r_{\alpha},t) = u_{horiz,min} + (u_{horiz,max}-u_{horiz,min}) \cdot \frac{G(r_{\alpha},t)-G_{0}(r_{\alpha},t)}{G_{max}(r_{\alpha},t)-G_{0}(r_{\alpha},t)}.
+\end{equation}
