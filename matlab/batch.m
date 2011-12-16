@@ -14,14 +14,13 @@ fri_p = [34 26;30 27;35 31;30 12;31 23;28 21;13 12;34 20;21 33;26 35;27 26;21 19
 %importance = 1.6;
 %location = 'fri'
 %numframes = 100
-smDriver(25, 10, 4, 1.6, 'fri', 200);
 
 for vis=[0.3 1 4]
     for dur = [5 25 50]
         for inten = [5 10 30]
             for importance = [0.5 1 1.6]
-                smDriver(dur, inten, vis, importance, 'fri', 200);
-                smDriver(dur, inten, vis, importance, 'stm', 200);
+                smDriver(dur, inten, vis, importance, 'fri', 100);
+                smDriver(dur, inten, vis, importance, 'stm', 100);
             end
         end
     end
