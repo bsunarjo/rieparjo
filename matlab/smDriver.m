@@ -1,4 +1,4 @@
-function smDriver(dur, inten, vis, importance, site, numframes)
+function [mysm,vtr] = smDriver(dur, inten, vis, importance, site, numframes)
 %SMDRIVER Sets up a simulation
 
 f1 = figure('OuterPosition',[0 0 700 600]);
@@ -186,9 +186,9 @@ end
 
 
 % save data
-savefile = sprintf('data/d%d_i%d_v%d_i%d_%s.mat',...
-            dur, inten, vis, importance, site);
-save(savefile, 'myplain', 'mysm');
+%savefile = sprintf('data/d%d_i%d_v%d_i%d_%s.mat',...
+%            dur, inten, vis, importance, site);
+%save(savefile, 'myplain', 'mysm');
 
 
 %i = 1;

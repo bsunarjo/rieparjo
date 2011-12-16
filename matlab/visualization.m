@@ -109,9 +109,14 @@ function plot_paths(filename)
     freezeColors % http://www.mathworks.com/matlabcentral/fileexchange/7943
 
 
-    % plot vector paths
+    % plot uncompleted vector paths
     for ped=mysm.pedestrians
-        plot(ped.way(:,1), ped.way(:,2));
+        plot(ped.way(:,1), ped.way(:,2), 'r');
+    end
+    
+    % plot completed vector paths
+    for path=mysm.paths
+        plot(path.coordinates(:,1),path.coordinates(:,2), 'b');
     end
 
     % plot cities
