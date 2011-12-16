@@ -42,10 +42,12 @@
 
 
 %\thispagestyle{empty} % no page numbers on title page
-Lecture with Computer Exercises: Modelling and Simulating Social Systems with MATLAB
-Project Report
+\textbf{\fontsize{30}{34}\selectfont Lecture with Computer Exercises: Modelling and Simulating Social Systems with {\sc MATLAB}}\\
+Project Report\\[2cm]
+
 
 Document Version: 1.0\\*
+16. December 2011\\*
 Group Name: Rieparjo\\*
 Group Members: Christoph Rieper and Benjamin Sunarjo
 
@@ -75,9 +77,6 @@ Benjamin Sunarjo
 \setcounter{page}{1}	% start page numbering here
 \pagenumbering{arabic}
 \pagestyle{plain}
-%=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-\section*{Abstract}
-%=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 \section*{Individual contributions}
@@ -100,7 +99,7 @@ Agent-based models can provide a easily implementable way to study complex syste
 %(Formulate a few, clear questions. Articulate them in sub-questions, from the more general to the more specific. )
 %(Define dependent and independent variables you want to study. Say how you want to measure them.)
 
-We attempt to answer the question: is the active walker model able to predict reasonable pathways between neighboring villages in real landscapes? Here, ``reasonable'' will be evaluated first in a qualitative sense. Second, a energy function will be defined based on the distance traveled horizontally and vertically, where a minimal energy function is most reasonable.
+In the following, we attempt to answer the question: is the active walker model able to predict reasonable pathways between neighboring villages in real landscapes? Here, ``reasonable'' will be evaluated first in a qualitative sense. Second, a energy function will be defined based on the distance traveled horizontally and vertically, where a minimal energy function is most reasonable.
 
 In a second step, we will determine the influence of landscape slope on trail formation, under the assumption that modern roads are situated where historically trails used to go through. We will compare generated paths to current road networks at two test sites to answer the questions: How does trail formation change with increasing landscape slope? Do the formed paths fit to current road networks?
 
@@ -147,7 +146,7 @@ As described in \autoref{pedestrians_direction}, the importance parameter contro
 \caption{The average number of completed paths (agents having reached their destination) after 100 model steps as a function of the parameter \emph{importance}.}
 \begin{tabular}{r l l l}
   \hline
-  \emph{importance} & 0.5 & 1 & 1.6 \\
+  \emph{importance} & 0.5 & 1 & 1.6 \\ \hline
   \emph{Fribourg} & 3.2 & 23.2 & 88.2  \\ 
   \emph{St. Moritz} & 5.9 & 26.4 & 89.3  \\
 \hline
@@ -163,7 +162,7 @@ As described in \autoref{pedestrians_direction}, the importance parameter contro
 \caption{The average normed travel time (time divided by point-to-point distance) of completed paths after 100 model steps as a function of the parameter \emph{importance}.}
 \begin{tabular}{r l l l}
   \hline
-  \emph{importance} & 0.5 & 1 & 1.6 \\
+  \emph{importance} & 0.5 & 1 & 1.6 \\ \hline
   \emph{Fribourg} & 0.15 & 0.22 & 0.16  \\ 
   \emph{St. Moritz} & 0.16 & 0.18 & 0.20  \\
 \hline
@@ -180,9 +179,21 @@ As described in \autoref{pedestrians_direction}, the importance parameter contro
 
 
 \subsubsection{Durability and Intensity}
-The parameters \emph{durability} and \emph{intensity} 
 
-higher clustering, but only at high intensities. more pronounced at fribourg, since st. moritz is constrained anyway.
+\begin{figure}[tbp]
+	\includegraphics[width=\linewidth]{../figures/durability1}
+	\caption{Path formation as a function of parameter \emph{durability} at site Fribourg. Blue lines are completed paths, red lines are agents that have not yet reached their destination. Paths appear to cluster closer together at higher durabilities.}
+	\label{fig:durability1}
+\end{figure}
+
+\begin{figure}[tbp]
+	\includegraphics[width=\linewidth]{../figures/durability2}
+	\caption{Same as in the figure above but at the site St. Moritz. Elevation causes the paths to be more tightly constrained, leading to practically identical paths taken at different durabilities. While the ground structure is more changed with higher durabilities (the green color), this seems to have no impact on the trails that agents take.}
+	\label{fig:durability2}
+\end{figure}
+
+The parameters \emph{durability} and \emph{intensity} affect the strength of trail formation: a higher durability causes a trail to exist longer, while a higher intensity causes a trail to have a stronger effect on the ground. These two parameters appear to have little effect on trail formation. A higher durability appears to result in a higher degree of clustering (there is a reduction of the number of trails taken: they are closer together), but only at high intensities. At the mountainous site St. Moritz, however, the paths taken appear practically identical regardless of durability or intensity. This indicates that paths are more constrained by the elevation and less influenced by parameter choice.
+
 
 
 
@@ -196,7 +207,8 @@ higher clustering, but only at high intensities. more pronounced at fribourg, si
 	\label{fig:roads}
 \end{figure}
 
-qualitative differences between the two sites. Road structure at the St. Moritz site shows close similarity to the structure of alpine rivers, 
+\autoref{fig:roads} shows the existing road structure at the two study sites, sourced from vector maps of the area \citep{vector25}. Qualitative differences between the two sites are immediately apparent. First, the flatland around Fribourg is considerably more densely populated than St. Moritz, leading to a very dense road structure. The road structure at St. Moritz resembles that of alpine rivers, flowing out of the mountains and into the valley, with the primary roads (thick lines) mostly in the valley. The road structure at Fribourg less linear and more that of an intricate network. Our simulation confirms this to a certain degree, with agent paths taking on a more linear structure at St. Moritz and a more woven structure at Fribourg. Whereas the road from Pontresina to Silvaplana at the St. Moritz site takes the flattest route possible, around the curve of the valley, in our simulation there was always an agent that took the most direct route at higher elevations.
+
 
 
 
@@ -204,9 +216,12 @@ qualitative differences between the two sites. Road structure at the St. Moritz 
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 \section{Summary and Outlook}
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-We found:
--it's most important to determine correct parameter values
--there are qualitative differences between the two study sites.
+Our findings confirm our hypotheses to a limited degree. Agent paths appear to be more tightly constrained in the Inn river valley around St. Moritz, following the same patterns regardless of parameters. In the flat land around Fribourg, path patterns are more diverse and more dependent on model parameters.
+
+We were not able to make significant progress, however, in answering the question of which model parameters most closely match reality. Existing road structure proved to provide too little information to quantitatively assess the model on. One possible way to compare model results with reality might be to assess the network structure and the degree of interconnectedness. In order to do this with our model, we would have to also consider the population of the cities in our model. Currently, agents are placed at random at one of the possible destinations, whereas in reality, the agents starting point and destination would likely depend on population, with more populated regions more likely to be starting points as well as destinations.
+
+In summary, the biggest open question around the active walker model concerns the values of the independent model parameters.
+
 
 %=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 %\addcontentsline{toc}{section}{References}  % adds references section to TOC
