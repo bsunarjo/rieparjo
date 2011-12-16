@@ -72,14 +72,32 @@ For value of $\rho>1$ the destination vector gets more important and for value $
 
 \section{Description of the Path-Evaluation Function}
 
-To evaluate the paths taken by the pedestrians a function was defined to judge if a path is reasonable or not. As described by \citet{koelbl_helbing:2003} humans try to minimize their cost of travel. Cost of travel in our case is travel-time. Assuming a horizontal speed $u_{horiz}(G(r_{\alpha},t))$ which scales with comfort of walking and a constant vertical speed $u_{vert}$ the travel-time is given by
+To evaluate the paths taken by the pedestrians a function was defined to judge if a path is reasonable or not. As described by \citet{koelbl_helbing:2003} humans try to minimize their cost of travel. Cost of travel in our case is travel-time. Therefore we developed a function which calculates the time it needs to walk a certain path.
+
+Assuming a horizontal speed $u_{horiz}(G(r_{\alpha},t))$ which scales with comfort of walking and a constant vertical speed $u_{vert}$ the travel-time is given by
 
 \begin{equation}
 T= \frac{s_{horiz}}{u_{horiz}(G(r_{\alpha},t))} + \frac{s_{vert}}{u_{vert}} \,,
 \end{equation}
 
-where $s_{vert}$ and $s_{horiz}$ are the vertically and horizontally traveled distance. In more detail the horizontal speed $u_{horiz}$ scales between a minimal horizontal speed $u_{horiz,min}$ and a maximal horizontal speed $u_{horiz,max}$ depending on how strongly the path is trampled down. This is expressed as
+where $s_{vert}$ is the uphill travelled distance and $s_{horiz}$ the horizontally traveled distance. In more detail the horizontal speed $u_{horiz}$ scales between a minimal horizontal speed $u_{horiz,min}$ and a maximal horizontal speed $u_{horiz,max}$ depending on how strongly the path is trampled down. This is expressed as
 
 \begin{equation}
 u_{horiz}(r_{\alpha},t) = u_{horiz,min} + (u_{horiz,max}-u_{horiz,min}) \cdot \frac{G(r_{\alpha},t)-G_{0}(r_{\alpha},t)}{G_{max}(r_{\alpha},t)-G_{0}(r_{\alpha},t)}.
 \end{equation}
+
+In Tab.\ \ref{table_speed} values of $u_{horiz,min}$, $u_{horiz,max}$ and $u_{vert}$ which are used in the path-evaluation function can be found.
+
+\begin{table}[h]
+\begin{center}
+ \setlength{\abovecaptionskip}{0pt}
+ \setlength{\belowcaptionskip}{10pt}
+\caption{Vertical and horizontal speed used in path-evaluation function.}
+\begin{tabular}{c l l}
+  \hline
+  $u_{horiz,min}$ & $u_{horiz,max}$ & $u_{vert}$ \\
+  4000 $m\,h^{-1}$ & 6000 $m\,h^{-1}$ & 500 $m\,h^{-1}$ \\ \hline
+\end{tabular}
+\label{table_speed}
+\end{center}
+\end{table}
